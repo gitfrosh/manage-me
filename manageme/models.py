@@ -34,7 +34,7 @@ class Rechnung(models.Model):
 
 class Auftrag(models.Model):
     aid = models.AutoField(primary_key=True)
-    aupload = models.FileField(upload_to='docs/', default='null')
+    aupload = models.FileField(upload_to='docs/', default='docs/sample.txt')
     rid=models.ManyToManyField(Rechnung, blank=True)
     did=models.ManyToManyField(Dienstleistungsart)
     kid=models.ForeignKey(Kunde)
