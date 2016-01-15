@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title%}
+    {{ page_title }}
+{% endblock %}
+{% load staticfiles %}
+{% block content %}
+
+
+{#    <img src="{% static 'manageme/1.jpg' %}" />#}
+
+
+
+
+    <table class="table table-striped table-bordered">
+
+        <tr>
+            <th>
+                Auftrags-ID
+            </th>
+            <th>
+                Kunde
+            </th>
+            <th>
+                Dienstleistung(en)
+            </th>
+            <th>
+                Rechnung(en)
+            </th>
+            <th>
+                Angebot
+            </th>
+            <th>&nbsp;
+            </th>
+            <th>&nbsp;
+            </th>
+        </tr>
+        {% for auftrag in auftraege %}
+            <tr>
+            <td>
+                {{ auftrag.aid }}
+            </td>
+            <td>
+                {{ auftrag.kid }}
+            </td>
+            <td>
+                {{ auftrag.did.all|join:', ' }}
+            </td>
+            <td>
+               {{ auftrag.rid.all|join:', ' }}
+            </td>
+                <td>
+
+               {{ auftrag.aupload }} <a href="{% url 'download' pk=auftrag.pk %}">{% bootstrap_icon 'download' %}</a>
+            </td>
+
+            <td><a href="{% url 'editAuftrag' pk=auftrag.pk %}">{% bootstrap_icon 'edit' %}</a></td>
+
+            <td><a href="{% url 'deleteAuftrag' pk=auftrag.pk %}">{% bootstrap_icon 'ban-circle' %}</a></td>
+
+        </tr>
+        {% endfor %}
+
+
+    </table>
+{% endblock %}
+
+

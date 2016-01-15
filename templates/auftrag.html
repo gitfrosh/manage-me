@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% block title %}
+
+    {{ page_title }}
+
+{% endblock %}
+
+{% block content %}
+
+   <form action="" enctype="multipart/form-data" method="post" class="form-horizontal">
+    {% csrf_token %} {# Cross-Site-Request-Forgery -> Sicherstellen, dass nur Requests abgeschickt werden, die auch geladen worden sind #}
+    {% bootstrap_form form layout='horizontal' %}
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+   </form>
+
+{% endblock %}

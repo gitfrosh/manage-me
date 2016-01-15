@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {%  block title %}
+            Dummy
+        {% endblock %}
+        </title>
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {# Display django.contrib.messages as Bootstrap alerts #}
+    {% bootstrap_messages %}
+    {% load staticfiles %}
+</head>
+<body>
+<h2>{{ page_title }}</h2>
+
+
+
+
+{% block content %}
+    Dummy
+{% endblock %}
+
+</body>
+</html>
