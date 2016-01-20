@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^auftrag/add/$', 'manageme.views.auftragsdetails', name='neuerAuftrag'),
     url(r'^auftrag/delete/(?P<pk>[0-9]+)/?$', 'manageme.views.deleteAuftrag', name='deleteAuftrag'),
     url(r'^auftrag/edit/(?P<pk>[0-9]+)/?$', 'manageme.views.auftragsdetails', name='editAuftrag'),
-    url(r'^auftrag/download/(?P<pk>[0-9]+)/?$', 'manageme.views.download', name='download')
+    url(r'^auftrag/download/(?P<pk>[0-9]+)/?$', 'manageme.views.download', name='download'),
+    url(r'^login/$', 'manageme.views.login_user', name='login'),
 ]

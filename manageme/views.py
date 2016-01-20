@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from django.shortcuts import render
+from django.template import RequestContext
 from manageme.models import *
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
@@ -8,11 +9,30 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from manageme.forms import *
 from manageme.models import *
-
+from django.shortcuts import render_to_response
+from django.contrib.auth import authenticate, login
+from django.http import *
+from django.shortcuts import render_to_response,redirect
+from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
+def login_user(request):
+    logout(request)
+    username = password = ''
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
 
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('http://52.29.42.195/Project/auftraege/')
+    return render_to_response('login.html', context_instance=RequestContext(request))
 
+@login_required(login_url='/Project/login/')
 def download(request, pk=None):
   fname = unicode(Auftrag.objects.get(pk=pk).aupload)
   path = os.path.join("/opt/bitnami/apps/django/django_projects/Project/media/", fname)
@@ -35,13 +55,14 @@ def download(request, pk=None):
     #     response['Content-Disposition'] = 'inline;filename="fname"'
     #     return response
 
+@login_required(login_url='/Project/login/')
 def get_auftraege(request):
     auftraege = Auftrag.objects.all().order_by('aid')
 
     return render(request, 'auftraege.html',{'page_title':'Aufträge','auftraege':auftraege})
 
 
-
+@login_required(login_url='/Project/login/')
 def neuerKunde(request):
     kunde = Kunde()
 
@@ -60,6 +81,7 @@ def neuerKunde(request):
 
     return render(request,'kunde.html', {'page_title':'Neuer Kunde', 'form': form})
 
+@login_required(login_url='/Project/login/')
 def neueDienstleistung(request):
     dienstleistung = Dienstleistungsart()
 
@@ -78,7 +100,7 @@ def neueDienstleistung(request):
 
     return render(request,'service.html', {'page_title':'Neue Dienstleistung', 'form': form})
 
-
+@login_required(login_url='/Project/login/')
 def neueRechnung(request):
     rechnung = Rechnung()
 
@@ -97,6 +119,7 @@ def neueRechnung(request):
 
     return render(request,'rechnung.html', {'page_title':'Neue Rechnung', 'form': form})
 
+@login_required(login_url='/Project/login/')
 def auftragsdetails(request, pk=None): # wenn Primärschlüssel übergeben wird editieren, wenn nicht, neues Buch
     if pk==None:
         auftrag = Auftrag()
@@ -117,6 +140,7 @@ def auftragsdetails(request, pk=None): # wenn Primärschlüssel übergeben wird 
         form = AuftragForm(instance=auftrag)
         return render(request, 'auftrag.html', {'page_title':page_title, 'form':form})
 
+@login_required(login_url='/Project/login/')
 def deleteAuftrag(request, pk=None):
         auftrag = get_object_or_404(Auftrag, pk=pk)
         auftrag.delete()
